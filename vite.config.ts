@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base:"vid",
+  base:"/vid",
   server: {
     port: 3500,
     open: true

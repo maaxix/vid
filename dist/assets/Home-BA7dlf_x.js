@@ -1,0 +1,1 @@
+import{j as e}from"./index-wKzmwJjn.js";import"./react-DWbSL3I3.js";const o=()=>e.jsxs("div",{children:[e.jsx("h4",{className:"mb-2 title-primary",children:"Home Page"}),e.jsx("p",{children:"Welcome to our Vite-powered React app!"})]});export{o as default};
