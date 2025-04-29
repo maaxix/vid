@@ -1,0 +1,66 @@
+/* Animations */
+
+/* Zoom */
+.animate-zoom {
+    transform: scale(0);
+    animation: zoomIn 0.4s forwards;
+  }
+  
+  @keyframes zoomIn {
+    to {
+      transform: scale(1);
+    }
+  }
+  
+  /* Slide from top */
+  .animate-top {
+    transform: translateY(-100%);
+    animation: slideInFromTop 0.4s forwards;
+  }
+  
+  @keyframes slideInFromTop {
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  /* Slide from bottom */
+  .animate-bottom {
+    transform: translateY(100%);
+    animation: slideInFromBottom 0.4s forwards;
+  }
+  
+  @keyframes slideInFromBottom {
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  /* Slide from left */
+  .animate-left {
+    transform: translateX(-100%);
+    animation: slideInFromLeft 0.4s forwards;
+  }
+  
+  @keyframes slideInFromLeft {
+    to {
+      transform: translateX(0);
+    }
+  }
+  
+  /* Slide from right */
+  .animate-right {
+    transform: translateX(100%);
+    animation: slideInFromRight 0.4s forwards;
+  }
+  
+  @keyframes slideInFromRight {
+    to {
+      transform: translateX(0);
+    }
+  }
+  
+  /* Fade in background */
+  .animate-opacity {
+    animation: fadeIn 0.4s forwards;
+  }

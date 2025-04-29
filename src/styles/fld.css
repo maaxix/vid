@@ -1,0 +1,228 @@
+.fld{
+  margin-bottom: 1rem;
+}
+.fld-label{
+  display: block;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+:root {
+    --input-bg:#222;
+    --form-select-bg-img: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23aab8c5' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+}
+.form-select {
+    outline: 0;
+    display: block;
+    width: 100%;
+    padding: .45rem 2.7rem .45rem .9rem;
+    font-size: .9rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--ct-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--input-bg);
+    background-image: var(--form-select-bg-img), var(--ct-form-select-bg-icon, none);
+    background-repeat: no-repeat;
+    background-position: right .9rem center;
+    background-size: 14px 10px;
+    border: var(--ct-border-width) solid var(--ct-border-color);
+    border-radius: .25rem;
+    -webkit-transition: border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+  }
+
+
+  .toggle-down-icon {
+    display: inline-block;
+  }
+  /* radio START */
+  .ricon{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 3px solid;
+    border-radius: 11px;
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .ricon::before{
+    content: "";
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 6px;
+    opacity: 0;
+    border: 4px solid;
+    position: absolute;
+  }
+  input:checked + .ricon::before{
+    opacity: 1;
+  }
+  /* colors */
+  input:checked + .ricon{
+    color: #6658d3
+  }
+  /*
+  input:checked ~ span{
+    color: #6658d3
+  }
+*/
+  /* radio END */
+
+   /* checkbox START */
+   .cicon{
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border: 2px solid;
+    padding: 1px;
+    border-radius: 3px;
+   }
+   .cicon::before{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 11px;
+    height: 6px;
+    border: solid 2px;
+    border-right: none;
+    border-top: none;
+    transform: translate(0px, 0px) rotate(-45deg);
+    opacity: 0;
+    top: 2px;
+   }
+   input:checked + .cicon::before{
+    opacity: 1;
+    color: #fff;
+  }
+  /* colors */
+  input:checked + .cicon{
+    background: #6658d3;
+    color: #6658d3;
+  }
+   /* checkbox END */
+
+   /* switch */
+   .switch {
+    z-index: 0;
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    line-height: 1.5;
+}
+/* Input */
+.switch > input {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    z-index: -1;
+    position: absolute;
+    right: 6px;
+    top: -8px;
+    display: block;
+    margin: 0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+    outline: none;
+    opacity: 0;
+    transform: scale(1);
+    pointer-events: none;
+    transition: opacity 0.3s 0.1s, transform 0.2s 0.1s;
+}
+/* Span */
+.switch > span {
+    display: inline-block;
+    width: 100%;
+    cursor: pointer;
+}
+/* Track */
+.switch > span::before {
+    content: "";
+    float: right;
+    display: inline-block;
+    margin: 5px 0 5px 10px;
+    border-radius: 7px;
+    width: 36px;
+    height: 14px;
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+    vertical-align: top;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+/* Thumb */
+.switch > span::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    right: 16px;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(var(--pure-material-onprimary-rgb, 255, 255, 255));
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    transition: background-color 0.2s, transform 0.2s;
+}
+/* Checked */
+.switch > input:checked {
+    right: -10px;
+    background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
+}
+
+.switch > input:checked + span::before {
+    background-color: rgba(var(--pure-material-primary-rgb, 33, 150, 243), 0.6);
+}
+
+.switch > input:checked + span::after {
+    background-color: rgb(var(--pure-material-primary-rgb, 33, 150, 243));
+    transform: translateX(16px);
+}
+
+/* Hover, Focus */
+.switch:hover > input {
+    opacity: 0.04;
+}
+
+.switch > input:focus {
+    opacity: 0.12;
+}
+
+.switch:hover > input:focus {
+    opacity: 0.16;
+}
+
+/* Active */
+.switch > input:active {
+    opacity: 1;
+    transform: scale(0);
+    transition: transform 0s, opacity 0s;
+}
+.switch > input:active + span::before {
+    background-color: rgba(var(--pure-material-primary-rgb, 33, 150, 243), 0.6);
+}
+
+.switch > input:checked:active + span::before {
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+}
+
+/* Disabled */
+.switch > input:disabled {
+    opacity: 0;
+}
+.switch > input:disabled + span {
+    color: rgb(var(--pure-material-onsurface-rgb, 0, 0, 0));
+    opacity: 0.38;
+    cursor: default;
+}
+.switch > input:disabled + span::before {
+    background-color: rgba(var(--pure-material-onsurface-rgb, 0, 0, 0), 0.38);
+}
+.switch > input:checked:disabled + span::before {
+    background-color: rgba(var(--pure-material-primary-rgb, 33, 150, 243), 0.6);
+}

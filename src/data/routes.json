@@ -1,0 +1,47 @@
+[
+    {
+      "path": "/",
+      "exact": true,
+      "component": "Home",
+      "icon": "home",
+      "name": "Home"
+    },
+    {
+      "path": "/about",
+      "component": "About",
+      "icon": "movies",
+      "name": "About"
+    },
+    {
+      "path": "/contact",
+      "component": "Contact",
+      "icon": "search",
+      "name": "Contact"
+    },
+    {
+      "path": "/products",
+      "exact": true,
+      "component": "ProductList",
+      "icon": "gear",
+      "name": "Products"
+    },
+    {
+      "path": "/media-servers",
+      "exact": true,
+      "component": "MediaServers",
+      "icon": "gear",
+      "name": "Media Servers"
+    },
+    {
+      "path": "/media-servers/:id",
+      "exact": true,
+      "component": "MediaServer",
+      "icon": "gear"
+    },
+    {
+      "path": "/products/:id",
+      "component": "ProductDetail"
+    }
+  ]
+
+  

@@ -1,0 +1,44 @@
+.modal-open{
+
+}
+.modal{
+    display: none;
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom:0;
+    overflow: auto;
+    z-index: 999;
+
+}
+.modal-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+}
+.modal-overlay{
+    background-color: rgba(0,0,0,.4);
+    position: fixed;
+    left: 0;right: 0; bottom: 0;top: 0;
+}
+.modal-close-button{
+    position: relative;
+    left: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    content: "";
+}
+.modal-main{
+    position: relative;
+    color: var(--dialog-color);
+    background-color: var(--dialog-bgcolor);
+    margin-top:50px;
+
+    transition: transform .3s ease-out;
+    transform: translate(0, -50px);
+    
+}

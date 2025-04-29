@@ -1,0 +1,130 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1;
+
+  background-color: var(--header-bgcolor);
+  color: var(--header-color);
+}
+
+.sidebar {
+  width: 240px;
+  bottom: 0;
+  top: 60px;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.2s ease;
+  margin-left: -100%;
+  position: fixed;
+  /*height: calc(100% - 60px);*/
+  z-index1: 1;
+  overflow: auto;
+
+  background-color: var(--sidebar-bgcolor);
+  color: var(--sidebar-color);
+
+}
+.sidebar-overlay {
+  position: fixed;
+  display: none;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+.sidebar nav ul {
+  list-style: none;
+}
+
+.sidebar nav ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar nav ul li a {
+  text-decoration: none;
+  display: block;
+}
+.sidebar li:hover {
+  color: var(--link-color);
+}
+
+.main-container {
+  display: flex;
+  flex: 1;
+  margin-top: 60px;
+}
+.main-content {
+  flex: 1;
+  padding: 20px;
+  
+  margin-left: 0px;
+}
+
+/* sidebar status */
+.sidebar-opened .sidebar {
+  margin-left: 0px;
+}
+.sidebar-opened .main-content {
+  margin-left: 240px;
+}
+.sidebar-popup .sidebar {
+  transform: translateX(0);
+  margin-left: 0px;
+  z-index: 100;
+}
+body.sidebar-popup  {
+  overflow: hidden;
+}
+.sidebar-popup .sidebar-overlay {
+  display: block;
+  z-index: 99 ;
+}
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0px;
+    transform: translateX(-100%);
+  }
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  .header{
+    padding: 0 5px;
+  }
+  .main-content {
+    margin-left: 0 !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+/* START rtl functions */
+.rtl {
+  direction: rtl;
+}
+.rtl .sidebar {
+  transition: margin-right 0.2s ease;
+  margin-left: 0;
+  transform: translateX(0);
+  margin-right: -100%;
+}
+.rtl.sidebar-opened .main-content {
+  margin-left: auto;
+  margin-right: 240px;
+}
+.rtl.sidebar-opened .sidebar {
+  margin-right: 0;
+}
+.sidebar-popup .sidebar {
+  transform: translateX(0);
+  margin-right: 0px;
+  top: 0;
+}
+/* END rtl functions */

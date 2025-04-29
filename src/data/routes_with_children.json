@@ -1,0 +1,25 @@
+[
+  {
+    "path": "/",
+    "component": "Home",
+    "name": "Home",
+    "exact": true
+  },
+  {
+    "path": "/about",
+    "component": "About",
+    "name": "About"
+  },
+  {
+    "path": "/products",
+    "component": "ProductList",
+    "name": "Products",
+    "children": [
+      {
+        "path": "detail/:id",
+        "component": "ProductDetail",
+        "name": "ProductDetail"
+      }
+    ]
+  }
+]

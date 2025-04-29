@@ -1,0 +1,125 @@
+/* Buttons */
+button,
+.btn,.btn-icon, .pill {
+  border-radius: 5px;
+
+  -webkit-user-drag: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  border: transparent;
+  border-radius: 5px;
+  font-size: 100%;
+  padding: .5em 1em;
+  text-decoration: none;
+  color: inherit;
+  background-color: inherit;
+  text-align: center;
+}
+.btn-round {
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.btn-icon {
+  padding: 0.5em;
+}
+.btn-icon .icon {
+  width: 20px;
+  height: 20px;
+  margin: 0 4px;
+}
+
+/* sub types */
+.btn-primary {
+ 
+}
+.link {
+  color: var(--link-color); 
+}
+.link:hover {
+  color: var(--link-hover-color);
+}
+
+.btn-link:hover {
+  color: var(--link-color);
+  background-color: transparent;
+}
+
+button:focus{
+outline: none;	
+}
+.btn:foucs {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.3) 0 4px 12px;
+  outline: none;
+}
+
+.btn:hover {
+  background-color: var(--hover-bgcolor);
+}
+
+.btn:active {
+  background-color: var(--hover-bgcolor2);
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  transform: translateY(0);
+}
+
+
+.btn_text{
+ margin-inline-start: 6px; 
+}
+
+
+
+.btn.primary{
+  background-color: var(--primary-bgcolor);
+  color: var(--primary-color);
+}
+.btn.primary:hover{
+  background-color: var(--primary-hover);
+}
+
+.btn.second{
+  background-color: var(--second-bgcolor);
+  color: var(--second-color);
+}
+.btn.second:hover{
+  background-color: var(--second-hover);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="color"],
+input[type="date"] ,
+input[type="url"] ,
+textarea{
+  background-color: var(--input-bgcolor);
+  border-radius: 5px;
+  padding: .5rem;
+  border: 1px solid transparent;
+  width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="color"]:focus,
+input[type="date"]:focus,
+input[type="url"]:focus,
+textarea:focus {
+  background-color: var(--input-bgcolor-focus);
+  border: 1px solid var(--input-border-focus);
+}
+
+
+.pill{
+  padding: .5em;
+  background-color: var(--hover-bgcolor2);
+}

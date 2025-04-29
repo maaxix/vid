@@ -1,0 +1,69 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-top: 1.5rem;
+}
+.field-label {
+  color: #8597a3;
+  position: absolute;
+  top: .5rem;
+  transition: 0.25s ease;
+  font-size: .9rem;
+}
+.field-input {
+  border: 0;
+  z-index: 1;
+  outline: 0;
+  color: inherit;
+  background-color: transparent;
+  border-bottom: 2px solid #eee;
+  font: inherit;
+  padding: .5rem;
+  border-radius: 5px 5px 0 0;
+  transition: border-bottom 0.2s, background-color 0.2s;
+}
+.field-input:focus {
+  outline: 0;
+  border-bottom-color: var(--primary-color);
+  background-color: rgba(100, 100, 100, 0.1);
+}
+.field-input:valid {
+  outline: 0;
+}
+.field-input:focus + .field-label{
+  color: var(--primary-color);
+}
+.field-input:focus + .field-label,
+.field-input:valid + .field-label, .field.disabled .field-label {
+  transform: translateY(-2rem);
+  font-size: .8rem;
+}
+.field-desc {
+  color: var(--primary-color);
+}
+.field-error {
+  color: crimson;
+}
+
+
+.field-input:disabled {
+    opacity: .5;
+}
+
+
+
+
+/* TOOLS for text wrap */
+.text-overflow {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Number of lines */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text-show{
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset;
+}

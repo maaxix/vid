@@ -1,0 +1,192 @@
+.container-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px 15px;
+    justify-content: center;
+}
+.container-flex{
+    display: flex;
+    gap: 40px 15px;
+    justify-content: center;
+}
+.movie-card {
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    transition: transform 0.3s;
+    background-color: var(--card-bgcolor);
+    color: var(--card-color);
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: transparent;
+}
+.movie-body{
+    padding: 10px;
+}
+
+.movie-card p {
+    margin: 10px 0;
+    font-size: .9em; /* Increase detail text size */
+    color: var(--second-color);
+}
+
+/* Card Container */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Card Styles */
+.card,  .box, .mcard {
+    background-color: var(--card-bgcolor);
+    color: var(--card-color);
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    transition: box-shadow 0.3s ease; /* Smooth transition for glow effect */
+
+
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.card-image {
+    width: 300px;
+}
+.cover-image{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:0
+}
+.card-header {
+    padding: .5rem 1rem;   
+}
+.card-body, .box-body {
+    padding: 1rem;
+}
+.card-footer{
+    padding: 0 1rem ;
+}
+.card-title{
+    margin-bottom: .5rem;
+    color: var(--card-title-color);
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+
+.title-primary{
+    color: var(--title-primary-color);
+}
+
+
+.card:hover {
+    outline1: 1px solid rgb(0, 123, 255); /* Blue outline on hover */
+    box-shadow1: 0 0 10px rgba(66, 126, 211, 0.484); /* Blue glow effect */
+    box-shadow: 
+        0 0 5px 2px rgba(0, 123, 255, 0.2), /* Inner glow */
+        0 0 10px 5px rgba(0, 123, 255, 0.1), /* Middle glow */
+        0 0 15px 8px rgba(0, 123, 255, 0.2); /* Outer glow */
+
+
+}
+
+.image-cover {
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    min-height: 50vh;
+}
+
+.info1{
+    color: var(--color1);
+}
+.info2{
+    color: var(--color2);
+}
+.info3{
+    color: var(--color3);
+}
+
+.mcard {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+  
+  .mcard-image img {
+    max-width: 300px; /* Default max-width */
+  min-width:200px;
+    width: 100%; /* Ensures the image is responsive */
+    height: auto;
+    display: block; /* Removes extra space below the image */
+  }
+  
+  .mcard-body {
+    padding: 10px;
+  
+  }
+  
+
+
+  /* Responsive adjustments */
+  @media (max-width: 767px) {
+    .mcard-image img {
+        max-width: 100%; /* Image takes full width on small screens */
+    }
+  .mcard{
+    display: flex;
+    flex-direction: column;
+  }
+  .mcard-body{
+    max-width:auto;
+  }
+}
+  
+
+.row {
+    display: flex;
+    justify-content: space-between; /* Creates space between col1 and col2 */
+    align-items: flex-start; /* Aligns columns to the top */
+    flex-wrap: wrap; /* Allows columns to wrap on smaller screens */
+    gap: 20px; /* Adds space between columns */
+}
+
+.col1 {
+    max-width: 600px; /* Maximum width for col1 */
+    min-width: 600px;
+    flex: 1; /* Allows col1 to grow and take available space */
+}
+
+.col2 {
+    max-width: 300px; /* Maximum width for col2 */
+    flex: 1; /* Allows col2 to grow and take available space */
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 767px) {
+    .row {
+        flex-direction: column; /* Stacks columns vertically */
+    }
+    .col1, .col2 {
+        max-width: 100%; /* Allows columns to take full width on small screens */
+    }
+}
