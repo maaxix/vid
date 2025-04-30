@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import "./modal.css"
+import { useEffect, useRef } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import './modal.css'
 
 interface ModalProps {
   open: boolean
@@ -10,46 +11,50 @@ interface ModalProps {
   children: React.ReactNode
 }
 
-export function Modal({ open, onClose,  modalType = 'center', children}: ModalProps) {
+export function Modal({ open, onClose, modalType = 'center', children }: ModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
-  const [visible, setVisible] = useState(open)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
-    if (open) {
-      setVisible(true)
-      document.body.style.overflow = 'hidden'
-      // Push a new state into browser history
-      window.history.pushState({ modalOpen: true }, '')
-    } else {
-      const timeout = setTimeout(() => setVisible(false), 300)
-      document.body.style.overflow = ''
-      return () => clearTimeout(timeout)
+    if (!open) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
     }
-  }, [open]);
 
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+    // Save current location
+    const currentPath = location.pathname + location.search
+
+    // Push a dummy modal route (not used, just for history stack)
+    navigate(currentPath + '#modal', { replace: false })
+
+    //const handlePopState = (e: PopStateEvent) => {
+    const handlePopState = () => {
+      //if (e.state?.modalOpen) onClose()
+      // Close modal if user hits "back"
+      if (window.location.hash !== '#modal') {
         onClose()
       }
     }
-    const onPopState = () => {
-      onClose()
-    }
-    document.addEventListener('keydown', onKeyDown)
-    window.addEventListener('popstate', onPopState)
+
+    window.addEventListener('popstate', handlePopState)
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      console.log("end useEffect key")
       document.body.style.overflow = ''
-      document.removeEventListener('keydown', onKeyDown)
-      window.removeEventListener('popstate', onPopState)
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('popstate', handlePopState)
 
+      // Clean up hash if still on modal
+      if (window.location.hash === '#modal') {
+        navigate(currentPath, { replace: true })
+      }
     }
-  }, [onClose]);
-  
+  }, [])
 
-  if (!visible) return null
+  if (!open) return null
 
   return (
     <div
@@ -65,7 +70,7 @@ export function Modal({ open, onClose,  modalType = 'center', children}: ModalPr
         className={`modal-content box1 p-4 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
           getModalPositionClass(modalType, open)
         }`}
-        
+        onClick={(e) => e.stopPropagation()}
       >
         {children}
       </div>

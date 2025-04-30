@@ -2,6 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom'
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import ForgotPasswordForm from './ForgotPasswordForm';
@@ -10,6 +11,8 @@ import './auth.css';
 
 export default function AuthForms({ onClose }: { onClose: () => void }) {
   const [activeForm, setActiveForm] = useState<'login' | 'register' | 'forgotPassword'>('login');
+  const navigate = useNavigate()
+  const location = useLocation()
 
   // Close modal when clicking outside the form
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -18,41 +21,46 @@ export default function AuthForms({ onClose }: { onClose: () => void }) {
     }
   };
 
-  // Close modal when Escape key is pressed
   useEffect(() => {
     const handleEscapeKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
     };
+ 
+    // Save current location
+    const currentPath = location.pathname + location.search
+    // Push a dummy modal route (not used, just for history stack)
+    navigate(currentPath + '#modal', { replace: false })
 
+    const handlePopState = () => {
+      //if (e.state?.modalOpen) {
+      //  onClose();
+      //}
+      if (window.location.hash !== '#modal') {
+        onClose()
+      }
+    };
+  
+    // Setup
+    document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', handleEscapeKey);
-    return () => window.removeEventListener('keydown', handleEscapeKey);
-  }, [onClose]);
-
-  // Handle browser back button
-  useEffect(() => {
-    // Add a new entry to the history stack when the modal opens
-    history.pushState({ modalOpen: true }, '');
-
-    const handlePopState = (e: PopStateEvent) => {
-      // Check if the modal is open
-      if (e.state?.modalOpen) {
-        onClose(); // Close the modal
-      }
-    };
-
     window.addEventListener('popstate', handlePopState);
-
+  
+    // Cleanup
     return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleEscapeKey);
       window.removeEventListener('popstate', handlePopState);
-
-      // Clean up the history state when the modal closes
-      if (history.state?.modalOpen) {
-        history.back(); // Remove the modal state from the history stack
+      //if (history.state?.modalOpen) {
+      //  history.back();
+      //}
+      if (window.location.hash === '#modal') {
+        navigate(currentPath, { replace: true })
       }
     };
-  }, [onClose]);
+  }, []);
+//  }, [onClose]);
 
   return (
     <div
