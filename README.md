@@ -10,6 +10,8 @@ cd template_app
 npm install react-router-dom
 npm install --save-dev @types/react-router-dom
 
+npm install -D tailwindcss postcss autoprefixer
+
 ### Running the Development Server
 > npm run dev
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-
+import "./modal.css"
 
 interface ModalProps {
   open: boolean
@@ -18,7 +18,6 @@ export function Modal({ open, onClose,  modalType = 'center', children}: ModalPr
     if (open) {
       setVisible(true)
       document.body.style.overflow = 'hidden'
-
       // Push a new state into browser history
       window.history.pushState({ modalOpen: true }, '')
     } else {
@@ -26,24 +25,26 @@ export function Modal({ open, onClose,  modalType = 'center', children}: ModalPr
       document.body.style.overflow = ''
       return () => clearTimeout(timeout)
     }
-  }, [open])
+  }, [open]);
+
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose()
       }
     }
-    //const onPopState = (e: PopStateEvent) => {
     const onPopState = () => {
       onClose()
     }
-
     document.addEventListener('keydown', onKeyDown)
     window.addEventListener('popstate', onPopState)
 
     return () => {
+      console.log("end useEffect key")
+      document.body.style.overflow = ''
       document.removeEventListener('keydown', onKeyDown)
       window.removeEventListener('popstate', onPopState)
+
     }
   }, [onClose]);
   
@@ -53,9 +54,7 @@ export function Modal({ open, onClose,  modalType = 'center', children}: ModalPr
   return (
     <div
       ref={overlayRef}
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 transition-opacity duration-300 ${
-        open ? 'opacity-100' : 'opacity-0'
-      }`}
+      className="modal-overlay"
       onClick={(e) => {
         if (e.target === overlayRef.current) {
           onClose()
@@ -63,27 +62,15 @@ export function Modal({ open, onClose,  modalType = 'center', children}: ModalPr
       }}
     >
       <div
-        className={`box1 p-4 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
+        className={`modal-content box1 p-4 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
           getModalPositionClass(modalType, open)
         }`}
-        style={{ width: getModalWidth(modalType), height: getModalHeight(modalType) }}
+        
       >
         {children}
       </div>
     </div>
   )
-}
-
-function getModalWidth(type: ModalProps['modalType']) {
-  if (type === 'full') return '100%'
-  if (['left', 'right'].includes(type || '')) return '300px'
-  return '90%'
-}
-
-function getModalHeight(type: ModalProps['modalType']) {
-  if (type === 'full') return '100%'
-  if (['top', 'bottom'].includes(type || '')) return '300px'
-  return 'auto'
 }
 
 function getModalPositionClass(type: ModalProps['modalType'], open: boolean) {

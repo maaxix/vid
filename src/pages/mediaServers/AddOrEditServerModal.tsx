@@ -53,13 +53,13 @@ export function AddOrEditServerModal({
         onChange={(e) => setForm((f) => ({ ...f, apiKey: e.target.value }))}
       />
 
-      <div className="flex justify-end space-x-2">
-        <button onClick={onClose} className="px-4 py-2 bg-gray-300 rounded">
+      <div className="flex gap-3">
+        <button onClick={onClose} className="btn second">
           Cancel
         </button>
         <button
           onClick={() => onSave(form)}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
+          className="btn primary"
         >
           Save
         </button>

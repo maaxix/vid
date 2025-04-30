@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   //base:"/vid",
   server: {
-    port: 3500,
+    port: 4040,
     open: true
   },
   build: {
