@@ -1,0 +1,1 @@
+import{j as r}from"./index-DGmofqpk.js";import"./react-WPAQU5kY.js";function e(){return r.jsxs("div",{children:[r.jsx("h4",{className:"mb-2 title-primary",children:"About Us"}),r.jsx("p",{children:"Learn more about our company."})]})}export{e as default};

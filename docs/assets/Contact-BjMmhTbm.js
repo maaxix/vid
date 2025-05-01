@@ -1,0 +1,1 @@
+import{j as t}from"./index-DGmofqpk.js";import"./react-WPAQU5kY.js";function s(){return t.jsxs("div",{children:[t.jsx("h4",{className:"mb-2 title-primary",children:"Contatct Us"}),t.jsx("p",{children:"Learn more ."})]})}export{s as default};
