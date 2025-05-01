@@ -14,7 +14,7 @@ export function ConfirmModal({ open, onClose, onConfirm, title = 'Confirm', mess
   if (!open) return null;
   return (
     <Modal open={open} onClose={onClose} modalType="center">
-      <h2 className="text-xl font-bold mb-4">{title}</h2>
+      <div className="card-title">{title}</div>
       <p className="mb-4">{message}</p>
       <div className="flex gap-3">
         <button onClick={onClose} className="btn second">

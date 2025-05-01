@@ -109,7 +109,7 @@ export default function VideoSearchPage() {
 
   return (
     <div className="container">
-      <h1 className="card-header">Video Search</h1>
+      <div className="card-title p-3 title-primary">Video Search</div>
       
       <SearchBar onSearch={handleSearch} />
       
@@ -125,6 +125,9 @@ export default function VideoSearchPage() {
         </div>
       )}
       
+      { videos.length > 0 && (
+        <div className="card-title p-3 title-primary">Video List</div>
+      )}
       <div className="container-grid">
         {videos.map((video) => (
                     <VideoCard 

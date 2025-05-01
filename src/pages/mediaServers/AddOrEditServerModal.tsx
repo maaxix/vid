@@ -29,11 +29,12 @@ export function AddOrEditServerModal({
   if (!open) return null;
   return (
     <Modal open={open} onClose={onClose} modalType="bottom">
-      <h2 className="text-lg font-bold mb-4">
+      <div className="card-title mb-4">
         {initial ? "Edit Server" : "Add Server"}
-      </h2>
+      </div>
 
       <input
+        type="text"
         className="border p-2 rounded w-full mb-2"
         placeholder="Name"
         value={form.name}
@@ -41,12 +42,14 @@ export function AddOrEditServerModal({
         disabled={!!initial}
       />
       <input
+        type="text"
         className="border p-2 rounded w-full mb-2"
         placeholder="URL"
         value={form.url}
         onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))}
       />
       <input
+        type="text"
         className="border p-2 rounded w-full mb-4"
         placeholder="API Key"
         value={form.apiKey}

@@ -1,6 +1,7 @@
 import React from 'react';
 //import Image from 'next/image'
 import { VideoItem } from './types';
+import "./VideoCard.css";
 
 interface VideoCardProps {
   video: VideoItem;
@@ -35,32 +36,17 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, baseServerUrl }) => {
       <div className="card">
         <div className="relative">
           <a href={vidUrl} target='__blank'>
-            <img 
-              src={thumbnailUrl} 
-              alt={title}
-              className="w-full h-48 object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = '';
-              }}
-            />
+            <img src={thumbnailUrl} alt={title} className="w-full h-48 object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '';}}  />
           </a>
-          <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-            {formatDuration(video.duration)}
-          </div>
+          <div className="pill small vid-time">{formatDuration(video.duration)}</div>
         </div>
         
         <div className="p-4">
-          <h3 className="font-semibold text-lg mb-2 line-clamp-2" title={title}>
-            {title}
-          </h3>
+          <div className="card-title mb-2" title={title}>{title}</div>
           
           <div className="flex flex-wrap gap-2 mt-2">
-            <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
-              {formatDate(video.fileUpdateDate)}
-            </span>
-            <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
-              {Math.round(video.fileSize / (1024 * 1024))}MB
-            </span>
+            <span className="pill small">{formatDate(video.fileUpdateDate)}</span>
+            <span className="pill small">{Math.round(video.fileSize / (1024 * 1024))} MB</span>
           </div>
         </div>
       </div>

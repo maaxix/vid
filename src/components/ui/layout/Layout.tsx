@@ -19,7 +19,6 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="main-content">
           <main className="main">
             <Breadcrumbs />
-            <div className="min-h-screen bg-gray-50">Good day</div>
             {children}
           </main>
         </div>

@@ -1,0 +1,7 @@
+.vid-time{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0,0,0,.7);
+    color: #eee;
+}

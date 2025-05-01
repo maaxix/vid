@@ -117,12 +117,12 @@ function MediaServers () {
 
   return (
     <div className="box">
-      <h4 className="flex card-header">
-        <span className="grow">Server Manager</span>
+      <div className="flex card-header">
+        <span className="grow card-title">Server Manager</span>
         <nav className="">
-          <button onClick={handleAdd} className="btn">Add Server</button>
+          <button onClick={handleAdd} className="btn second">Add Server</button>
         </nav>
-      </h4>
+      </div>
 
       <div className="card-body flex-col gap-4">
         {Object.entries(servers).map(([name, server]) => (

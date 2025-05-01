@@ -13,7 +13,7 @@ export type ServerConfig = {
   export const defaultConfig: Config = {
     servers: { 
       localhost: { 
-        url: 'http://localhost:4000', 
+        url: 'https://localhost:4141',
         apiKey: '' 
       } 
     },
