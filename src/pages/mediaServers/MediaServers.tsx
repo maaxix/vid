@@ -120,7 +120,7 @@ function MediaServers () {
       <div className="flex card-header">
         <span className="grow card-title">Server Manager</span>
         <nav className="">
-          <button onClick={handleAdd} className="btn second">Add Server</button>
+          <button onClick={handleAdd} className="btn second tooltip">Add Server<span className="tooltip-top tooltiptext">Add Server</span></button>
         </nav>
       </div>
 
@@ -134,10 +134,10 @@ function MediaServers () {
                 Status: {statuses[name] || 'unknown'}
               </p>
             </Link>
-            <div className="">
-              <Link  to={`${pathname}/${server.name}/settings`} className="btn">Settings</Link>
-              <button onClick={() => handleEdit(name)} className="btn">Edit</button>
-              <button onClick={() => handleDelete(name)} className="btn">Delete</button>
+            <div className="flex-start">
+              <Link  to={`${pathname}/${server.name}/settings`} className="btn btn-icon"><i className="icon icon-gear"></i>Settings</Link>
+              <button onClick={() => handleEdit(name)} className="btn btn-icon"><i className="icon icon-edit"></i></button>
+              <button onClick={() => handleDelete(name)} className="btn btn-icon"><i className="icon icon-del"></i></button>
             </div>
           </div>
         ))}
