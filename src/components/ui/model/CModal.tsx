@@ -20,7 +20,9 @@ export function Modal({ open, onClose, modalType = 'center', children }: ModalPr
     if (!open) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') {
+        navigate(-1);
+        onClose()}
     }
 
     // Save current location
@@ -62,6 +64,7 @@ export function Modal({ open, onClose, modalType = 'center', children }: ModalPr
       className="modal-overlay"
       onClick={(e) => {
         if (e.target === overlayRef.current) {
+          navigate(-1);
           onClose()
         }
       }}

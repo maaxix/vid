@@ -1,4 +1,3 @@
-import { ConfigProvider } from '../../config/ConfigContext';
 
 import Header from '../header/Header';
 import Sidebar from '../sidebar/Sidebar';
@@ -12,7 +11,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <ConfigProvider>
+    <>
       <Header/>  
       <div className="main-container">
         <Sidebar/>
@@ -23,7 +22,7 @@ const Layout = ({ children }: LayoutProps) => {
           </main>
         </div>
       </div>
-    </ConfigProvider>
+    </>
   );
 };
 

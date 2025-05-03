@@ -13,7 +13,11 @@ const Breadcrumbs = () => {
     const isLast = index === pathSegments.length - 1;
 
     // Customize labels for dynamic routes
+    segment = decodeURIComponent(segment);
     let label = segment.replace(/-/g, ' '); // Replace hyphens with spaces
+
+    console.log(`lable= ${label}`);
+
     if (segment.match(/^\[.*\]$/)) {
       label = 'Dynamic'; // Example for dynamic segments like [slug]
     }

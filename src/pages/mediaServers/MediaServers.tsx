@@ -1,143 +1,110 @@
-import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+// MediaServers.tsx
+import { useEffect, useState } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { ConfirmModal } from '../../components/ui/model/ConfirmDeleteModal';
 
-import { useConfig } from '../../components/config/ConfigContext'
-import { ConfirmModal } from './ConfirmDeleteModal'
-import { AddOrEditServerModal } from './AddOrEditServerModal'
-import { Link } from 'react-router-dom'
+import mediaServersService, {ServerEntry, ServerStatus } from './MediaServersService';
+import { AddOrEditServerModal } from './AddOrEditServerModal';
 
-interface ServerEntry {
-  name: string
-  url: string
-  apiKey: string
-}
-
-
-function MediaServers () {
+function MediaServers() {
   const location = useLocation();
   const pathname = location.pathname;
 
-  const { config, updateConfig } = useConfig()
-  const [servers, setServers] = useState<Record<string, ServerEntry>>({})
-  const [statuses, setStatuses] = useState<Record<string, 'online' | 'offline' | 'unknown'>>({})
+  const [configDate, setConfigDate] = useState<string>("");
+  const [servers, setServers] = useState< ServerEntry[]>([]);
+  const [statuses, setStatuses] = useState<Record<string, ServerStatus>>({});
 
-  const [addEditOpen, setAddEditOpen] = useState(false)
-  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [addEditOpen, setAddEditOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
-  const [currentServer, setCurrentServer] = useState<ServerEntry | null>(null)
-  const [serverToDelete, setServerToDelete] = useState<string | null>(null)
-
+  const [currentServer, setCurrentServer] = useState<ServerEntry | null>(null);
+  const [serverToDelete, setServerToDelete] = useState<string | null>(null);
 
   useEffect(() => {
-    if (config?.servers) {
-      const tempServers: Record<string, ServerEntry> = {}
-      config.serverOrder.forEach((name) => {
-        if (config.servers[name]) {
-          tempServers[name] = { name, ...config.servers[name] }
-        }
-      })
-      setServers(tempServers)
-    }
-  }, [config])
+    const fetchServers = async () => {
+      const servers =  mediaServersService.getServerList();
+      setServers(servers);
+    };
+    fetchServers();
+  }, [configDate]);
 
   useEffect(() => {
     const checkStatuses = async () => {
-      const newStatuses: Record<string, 'online' | 'offline' | 'unknown'> = {}
-
-      await Promise.all(
-        Object.entries(servers).map(async ([name, server]) => {
-          try {
-            const res = await fetch(`${server.url}/api/ping`, { method: 'GET' })
-            if (res.ok) {
-              newStatuses[name] = 'online'
-            } else {
-              newStatuses[name] = 'offline'
-            }
-          } catch {
-            newStatuses[name] = 'offline'
-          }
-        })
-      )
-
-      setStatuses(newStatuses)
-    }
-
-    if (Object.keys(servers).length > 0) {
-      checkStatuses()
-    }
-  }, [servers])
-
-  const saveServers = (updated: Record<string, ServerEntry>) => {
-    const newServers: Record<string, { url: string; apiKey: string }> = {}
-    const newOrder: string[] = []
-
-    Object.entries(updated).forEach(([name, server]) => {
-      newServers[name] = { url: server.url, apiKey: server.apiKey }
-      newOrder.push(name)
-    })
-
-    const newConfig = { ...config, servers: newServers, serverOrder: newOrder }
-    updateConfig(newConfig)
-  }
+      if (servers.length > 0) {
+        const newStatuses = await mediaServersService.checkServerStatuses(servers);
+        setStatuses(newStatuses);
+      }
+    };
+    checkStatuses();
+  }, [servers]);
 
   const handleAdd = () => {
-    setCurrentServer(null)
-    setAddEditOpen(true)
-  }
+    setCurrentServer(null);
+    setAddEditOpen(true);
+  };
 
   const handleEdit = (name: string) => {
-    const server = servers[name]
+    const server = mediaServersService.findServerByName(name);
     if (server) {
-      setCurrentServer({ ...server })
-      setAddEditOpen(true)
+      setCurrentServer({ ...server });
+      setAddEditOpen(true);
     }
-  }
+  };
 
   const handleDelete = (name: string) => {
-    setServerToDelete(name)
-    setDeleteConfirmOpen(true)
-  }
+    setServerToDelete(name);
+    setDeleteConfirmOpen(true);
+  };
 
-  const confirmDelete = () => {
+  const confirmDelete =  () => {
     if (serverToDelete) {
-      const updated = { ...servers }
-      delete updated[serverToDelete]
-      saveServers(updated)
-      setServerToDelete(null)
+      mediaServersService.deleteServer(serverToDelete);
+      setServerToDelete(null);
+      setConfigDate((new Date()).toLocaleDateString());
     }
-    setDeleteConfirmOpen(false)
-  }
+    setDeleteConfirmOpen(false);
+  };
 
   const handleSave = (server: ServerEntry) => {
-    const updated = { ...servers, [server.name]: { name: server.name, url: server.url, apiKey: server.apiKey } }
-    saveServers(updated)
-    setAddEditOpen(false)
-  }
-
+    mediaServersService.saveServer(server);
+    setAddEditOpen(false);
+    setConfigDate((new Date()).toLocaleDateString());
+    return true;
+  };
 
   return (
     <div className="box">
       <div className="flex card-header">
-        <span className="grow card-title">Server Manager</span>
+        <span className="grow card-title title-primary">Server Manager</span>
         <nav className="">
-          <button onClick={handleAdd} className="btn second tooltip">Add Server<span className="tooltip-top tooltiptext">Add Server</span></button>
+          <button onClick={handleAdd} className="btn second tooltip">
+            Add Server<span className="tooltip-top tooltiptext">Add Server</span>
+          </button>
         </nav>
       </div>
 
-      <div className="card-body flex-col gap-4">
-        {Object.entries(servers).map(([name, server]) => (
-          <div key={name} className="card flex gap-2 box p-2">
-            <Link  to={`${pathname}/${server.name}`} className='grow'>
-              <h4 className="text-lg font-semibold">{name}</h4>
+      <div className="card-body flex-col gap-6">
+        {servers.map(server => (
+          <div key={server.name} className="card flex gap-2 box p-2">
+            <Link to={`${pathname}/${server.name}`} className='grow'>
+              <h4 className="text-lg font-semibold">{server.name}</h4>
               <p className="text-sm text-gray-500">{server.url}</p>
-              <p className={`text-sm mt-1 ${statuses[name] === 'online' ? 'text-green-600' : 'text-red-600'}`}>
-                Status: {statuses[name] || 'unknown'}
+              <p className={`text-sm mt-1 ${statuses[server.name] === 'online' ? 'text-green-600' : 'text-red-600'}`}>
+                Status: {statuses[server.name] || 'unknown'}
               </p>
             </Link>
             <div className="flex-start">
-              <Link  to={`${pathname}/${server.name}/settings`} className="btn btn-icon"><i className="icon icon-gear"></i>Settings</Link>
-              <button onClick={() => handleEdit(name)} className="btn btn-icon"><i className="icon icon-edit"></i></button>
-              <button onClick={() => handleDelete(name)} className="btn btn-icon"><i className="icon icon-del"></i></button>
+              {statuses[server.name] === 'online' && (
+                <Link to={`${pathname}/${server.name}/settings`} className="btn btn-icon">
+                  <i className="icon icon-gear"></i>Settings
+                </Link>
+              )}
+              <button onClick={() => handleEdit(server.name)} className="btn btn-icon">
+                <i className="icon icon-edit"></i>
+              </button>
+              <button onClick={() => handleDelete(server.name)} className="btn btn-icon">
+                <i className="icon icon-del"></i>
+              </button>
             </div>
           </div>
         ))}
@@ -159,7 +126,7 @@ function MediaServers () {
         message={`Are you sure you want to delete server "${serverToDelete}"?`}
       />
     </div>
-  )
+  );
 }
 
-export default MediaServers ;
+export default MediaServers;

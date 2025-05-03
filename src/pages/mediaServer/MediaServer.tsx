@@ -3,8 +3,7 @@
 import { useEffect, useState, useRef, useCallback} from 'react';
 import { useParams } from 'react-router-dom';
 
-import { useConfig } from '../../components/config/ConfigContext'
-
+import mediaServersService from '../mediaServers/MediaServersService';
 import VideoCard from '../../components/video/VideoCard';
 import SearchBar from '../../components/video/SearchBar';
 import { VideoItem, ApiResponse } from '../../components/video/types';
@@ -12,7 +11,6 @@ import { VideoItem, ApiResponse } from '../../components/video/types';
 export default function VideoSearchPage() {
 //export default function VideoSearchPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = useParams<{ id: string }>();
-  const { config } = useConfig()
 
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,7 +23,7 @@ export default function VideoSearchPage() {
   const observer = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
-  console.log(`id=${id}`)
+  //console.log(`id=${id}`)
  
 
   const fetchVideos = useCallback(async (currentPage: number, query: string = '', reset: boolean = false) => {
@@ -35,13 +33,11 @@ export default function VideoSearchPage() {
     setError(null);
     
     try {
-      const server = config.servers[id|| ""]; //getServerUrl(id);
+      const server = mediaServersService.findServerByName(id||"");
       if(!server){
         throw new Error(`Endpoint with name "${id}" not found`);
       }
-      const serverUrl = config.servers[id|| ""].url; //getServerUrl(id);
-      console.log("serves")
-      console.log(config.servers);
+      const serverUrl =server.url;
       const url = new URL(serverUrl+'/api/media/search', window.location.origin);
       if (query) url.searchParams.append('q', query);
       url.searchParams.append('page', currentPage.toString());

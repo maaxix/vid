@@ -6,7 +6,15 @@
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+.fld-input {
+
+}
+.fld-error {
+  color:rgb(239,68,68);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 :root {
     --input-bg:#222;

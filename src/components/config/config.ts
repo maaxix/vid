@@ -1,22 +1,17 @@
-// types/config.ts
 export type ServerConfig = {
-    url: string;
-    apiKey: string;
-  };
-  
-  export type Config = {
-    servers: Record<string, ServerConfig>;
-    serverOrder: string[];
-    theme: string;
-  };
-  
-  export const defaultConfig: Config = {
-    servers: { 
-      localhost: { 
-        url: 'https://localhost:4141',
-        apiKey: '' 
-      } 
-    },
-    serverOrder: ['localhost'],
-    theme: 'light',
-  };
+  name:string;
+  url: string;
+  apiKey: string;
+};
+
+export type Config = {
+  serverList: ServerConfig[];
+  apiBaseUrl: string;
+  theme: string;
+};
+
+export const defaultConfig: Config = {
+  serverList: [{name:"localhost", url: "https://localhost:4141", apiKey: ""}],
+  apiBaseUrl: "",
+  theme: 'light',
+};

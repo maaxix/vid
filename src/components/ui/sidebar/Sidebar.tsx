@@ -16,7 +16,7 @@ const Sidebar = () => {
 
         <aside className="sidebar autoscrollhide" id="sidebar">
         <nav className="sidebar-nav">
-            <div>
+            <div className="flex-col">
                 {rotues
                 .filter(item => item.name)
                 .map((item, index) => (

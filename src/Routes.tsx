@@ -16,7 +16,8 @@ const getSafeComponent = (componentName: keyof typeof pageComponents) => {
 
 // Lazy-load page components
 const pageComponents = {
-  NotFound: lazy(() => import('./pages/NotFound')),
+  //NotFound: lazy(() => import('./pages/NotFound')),
+  NotFound: NotFound,
   Home: lazy(() => import('./pages/Home')),
   About: lazy(() => import('./pages/About')),
   Contact: lazy(() => import('./pages/Contact')),
@@ -24,6 +25,7 @@ const pageComponents = {
   ProductDetail: lazy(() => import('./pages/Products/ProductDetail')),
   MediaServers: lazy(() => import('./pages/mediaServers/MediaServers')),
   MediaServer: lazy(() => import('./pages/mediaServer/MediaServer')),
+  MediaServerSettings: lazy(() => import('./pages/mediaServer/MediaServerSettings')),
 };
 
 // Define route type (matching your JSON)

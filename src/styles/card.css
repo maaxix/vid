@@ -187,3 +187,9 @@
         max-width: 100%; /* Allows columns to take full width on small screens */
     }
 }
+
+
+.shadwo-1{
+    box-shadow1: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgba(51, 51, 51,.3) 0px 0px 0px 3px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px
+}
