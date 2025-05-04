@@ -18,14 +18,14 @@ const getSafeComponent = (componentName: keyof typeof pageComponents) => {
 const pageComponents = {
   //NotFound: lazy(() => import('./pages/NotFound')),
   NotFound: NotFound,
-  Home: lazy(() => import('./pages/Home')),
-  About: lazy(() => import('./pages/About')),
-  Contact: lazy(() => import('./pages/Contact')),
-  ProductList: lazy(() => import('./pages/Products/ProductList')),
-  ProductDetail: lazy(() => import('./pages/Products/ProductDetail')),
-  MediaServers: lazy(() => import('./pages/mediaServers/MediaServers')),
-  MediaServer: lazy(() => import('./pages/mediaServer/MediaServer')),
-  MediaServerSettings: lazy(() => import('./pages/mediaServer/MediaServerSettings')),
+  Home:                   lazy(() => import('./pages/Home')),
+  About:                  lazy(() => import('./pages/About')),
+  Contact:                lazy(() => import('./pages/Contact')),
+  ProductList:            lazy(() => import('./pages/Products/ProductList')),
+  ProductDetail:          lazy(() => import('./pages/Products/ProductDetail')),
+  MediaServersPage:       lazy(() => import('./pages/media-servers/MediaServersPage')),
+  MediaSearchPage:        lazy(() => import('./pages/media-servers/id/MediaSearchPage')),
+  MediaServerSettingsPage:lazy(() => import('./pages/media-servers/id/settings/MediaServerSettingsPage')),
 };
 
 // Define route type (matching your JSON)

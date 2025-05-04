@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import mediaServersService from '@/pages//mediaServers/MediaServersService';
+import mediaServersService from '@/pages//media-servers/MediaServersService';
 
 import { MediaServerDir, fetchMediaDir, createMediaDir, updateMediaDir, deleteMediaDir } from './MediaServerSettingsService';
 
-export default function MediaServerSettings() {
+export default function MediaServerSettingsPage() {
   const { id } = useParams<{ id: string }>();
   const [list, setList] = useState<MediaServerDir[]>([]);
   const [error, setError] = useState<string | null>(null);

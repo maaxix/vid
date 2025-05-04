@@ -6,7 +6,7 @@ import { ConfirmModal } from '@/components/ui/model/ConfirmDeleteModal';
 import mediaServersService, {ServerEntry, ServerStatus } from './MediaServersService';
 import { AddOrEditServerModal } from './AddOrEditServerModal';
 
-function MediaServers() {
+function MediaServersPage() {
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -129,4 +129,4 @@ function MediaServers() {
   );
 }
 
-export default MediaServers;
+export default MediaServersPage;

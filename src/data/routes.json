@@ -28,20 +28,20 @@
     {
       "path": "/media-servers",
       "exact": true,
-      "component": "MediaServers",
+      "component": "MediaServersPage",
       "icon": "gear",
       "name": "Media Servers"
     },
     {
       "path": "/media-servers/:id",
       "exact": true,
-      "component": "MediaServer",
+      "component": "MediaSearchPage",
       "icon": "gear"
     },
     {
       "path": "/media-servers/:id/settings",
       "exact": true,
-      "component": "MediaServerSettings",
+      "component": "MediaServerSettingsPage",
       "icon": "gear"
     },
     {
