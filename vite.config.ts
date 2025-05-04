@@ -1,9 +1,29 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+
+ // ...  [See more options](https://github.com/javascript-obfuscator/javascript-obfuscator)
+//import obfuscatorPlugin from "vite-plugin-javascript-obfuscator";
+
 import path from 'path';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react()
+    /*
+    ,obfuscatorPlugin({
+      exclude: [/node_modules/, "/Routes.tsx"],
+      apply: "build",
+      debugger: true,
+      options: {
+        compact: true,
+        controlFlowFlattening: true,
+        identifierNamesGenerator: 'mangled',
+        renameGlobals: true,
+       
+      },
+    }),
+    */
+  ],
   base:"/vid/",
   resolve: {
     alias: {

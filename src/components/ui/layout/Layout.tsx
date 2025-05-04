@@ -1,9 +1,9 @@
 
-import Header from '../header/Header';
-import Sidebar from '../sidebar/Sidebar';
+import Header from '@/components/ui/header/Header';
+import Sidebar from '@/components/ui/sidebar/Sidebar';
+import Breadcrumbs from '@/components/ui/breadcrumbs/Breadcrumbs';
 
 import './Layout.css';
-import Breadcrumbs from '../breadcrumbs/Breadcrumbs';
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -1,7 +1,7 @@
 // MediaServers.tsx
 import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { ConfirmModal } from '../../components/ui/model/ConfirmDeleteModal';
+import { ConfirmModal } from '@/components/ui/model/ConfirmDeleteModal';
 
 import mediaServersService, {ServerEntry, ServerStatus } from './MediaServersService';
 import { AddOrEditServerModal } from './AddOrEditServerModal';
@@ -65,8 +65,8 @@ function MediaServers() {
     setDeleteConfirmOpen(false);
   };
 
-  const handleSave = (server: ServerEntry) => {
-    mediaServersService.saveServer(server);
+  const handleSave = () => {
+    //mediaServersService.saveServer(server);
     setAddEditOpen(false);
     setConfigDate((new Date()).toLocaleDateString());
     return true;

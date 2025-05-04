@@ -1,5 +1,5 @@
 // MediaServersService.ts
-import configService from "../../components/config/configService";
+import configService from "@/components/config/configService";
 
 export interface ServerEntry {
   name: string;
@@ -9,7 +9,7 @@ export interface ServerEntry {
 
 export type ServerStatus = "online" | "offline" | "unknown";
 
-const isValidUrl = (url: string) => {
+const isValidUrl = (url: string): boolean => {
   try {
     new URL(url);
     return true;
@@ -19,114 +19,101 @@ const isValidUrl = (url: string) => {
 };
 
 class MediaServersService {
-  public findServerByName(serverName: string) : ServerEntry | null{
+  public findServerByName(serverName: string): ServerEntry | null {
     const serverList = configService.getConfig().serverList;
-    for (let i = serverList.length - 1; i >= 0; i--) {
-      if (serverList[i].name === serverName) {
-        return serverList[i];
-      }
-    }
-    return null
+    return serverList.find((server) => server.name === serverName) || null;
   }
-  //async getServersMap(): Promise<Record<string, ServerEntry>> {
-  getServersMap(): Record<string, ServerEntry> {
+
+  public getServersMap(): Record<string, ServerEntry> {
     const config = configService.getConfig();
-    if (!config?.serverList) return {};
+    const serverList = config?.serverList ?? [];
 
-    const tempServers: Record<string, ServerEntry> = {};
-    config.serverList.forEach((server) => {
-      tempServers[server.name] = server;
-    });
-    return tempServers;
+    return serverList.reduce((map, server) => {
+      map[server.name] = server;
+      return map;
+    }, {} as Record<string, ServerEntry>);
   }
 
-  //async getServerList(): Promise<ServerEntry[]> {
-  getServerList(): ServerEntry[] {
-    const config = configService.getConfig();
-    if (!config?.serverList) return [];
-
-    return config.serverList;
+  public getServerList(): ServerEntry[] {
+    return configService.getConfig().serverList ?? [];
   }
 
-  async checkServerStatuses(
+  public async checkServerStatuses(
     servers: ServerEntry[]
   ): Promise<Record<string, ServerStatus>> {
-    const newStatuses: Record<string, ServerStatus> = {};
+    const statuses: Record<string, ServerStatus> = {};
 
     await Promise.all(
       servers.map(async (server) => {
         try {
           const res = await fetch(`${server.url}/api/ping`, { method: "GET" });
-          newStatuses[server.name] = res.ok ? "online" : "offline";
+          statuses[server.name] = res.ok ? "online" : "offline";
         } catch {
-          newStatuses[server.name] = "offline";
+          statuses[server.name] = "offline";
         }
       })
     );
 
-    return newStatuses;
+    return statuses;
   }
 
-  deleteServer(serverName: string): void {
+  public saveServer(server: ServerEntry): void {
     const serverList = configService.getConfig().serverList;
-    for (let i = serverList.length - 1; i >= 0; i--) {
-      if (serverList[i].name === serverName) {
-        serverList.splice(i, 1);
-        configService.save();
-        break; // uncomment if you only want to remove the first match
-      }
-    }
-  }
+    const index = serverList.findIndex((s) => s.name === server.name);
 
-  //async saveServer(server: ServerEntry): Promise<void> {
-  saveServer(server: ServerEntry):void {
-    const serverList = configService.getConfig().serverList;
-    let isNew = true;
-    for (let i = serverList.length - 1; i >= 0; i--) {
-      if (serverList[i].name === server.name) {
-        isNew = false;
-        serverList[i] = { ...server };
-        break;
-      }
-    }
-    if (isNew) {
+    if (index !== -1) {
+      serverList[index] = { ...server };
+    } else {
       serverList.push(server);
     }
+
     configService.save();
   }
 
-  validateForm(form: ServerEntry): Record<string, string> {
-    const newErrors: Record<string, string> = {
+  public deleteServer(serverName: string): void {
+    const serverList = configService.getConfig().serverList;
+    const index = serverList.findIndex((s) => s.name === serverName);
+
+    if (index !== -1) {
+      serverList.splice(index, 1);
+      configService.save();
+    }
+  }
+
+  public validateForm(form: ServerEntry): Record<string, string> {
+    const errors: Record<string, string> = {
       _error: "",
       name: "",
       url: "",
       apiKey: "",
     };
+
     let isValid = true;
 
-    // Name validation
     if (!form.name.trim()) {
-      newErrors.name = "Name is required";
+      errors.name = "Name is required";
       isValid = false;
     }
 
-    // URL validation
     if (!form.url.trim()) {
-      newErrors.url = "URL is required";
+      errors.url = "URL is required";
       isValid = false;
     } else if (!isValidUrl(form.url)) {
-      newErrors.url = "Please enter a valid URL";
+      errors.url = "Please enter a valid URL";
       isValid = false;
     }
 
-    // API Key validation
-    //if (!form.apiKey.trim()) {
-    //  newErrors.apiKey = "API Key is required";
-    //  isValid = false;
-    //}
+    // Optional API Key validation (commented out by design)
+    // if (!form.apiKey.trim()) {
+    //   errors.apiKey = "API Key is required";
+    //   isValid = false;
+    // }
 
-    if (!isValid) newErrors._error = "ERROR";
-    return newErrors;
+    if (!isValid) {
+      errors._error = "ERROR";
+    }
+
+    return errors;
   }
 }
 

@@ -1,4 +1,5 @@
-// src/services/apiDirService.ts
+
+// src/services/MediaServerSettingsService.ts
 
 export interface MediaServerDir {
   name: string;

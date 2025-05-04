@@ -1,7 +1,7 @@
 "use client";
 import { useNavigate } from 'react-router-dom'
 
-import { Modal } from '../../components/ui/model/CModal'
+import { Modal } from '@/components/ui/model/CModal'
 import { useState, useEffect } from "react";
 
 import mediaServersService ,{ ServerEntry} from './MediaServersService';

@@ -3,10 +3,10 @@
 import { useEffect, useState, useRef, useCallback} from 'react';
 import { useParams } from 'react-router-dom';
 
-import mediaServersService from '../mediaServers/MediaServersService';
-import VideoCard from '../../components/video/VideoCard';
-import SearchBar from '../../components/video/SearchBar';
-import { VideoItem, ApiResponse } from '../../components/video/types';
+import mediaServersService from '@/pages/mediaServers/MediaServersService';
+import VideoCard from '@/components/video/VideoCard';
+import SearchBar from '@/components/video/SearchBar';
+import { VideoItem, ApiResponse } from '@/components/video/types';
 
 export default function VideoSearchPage() {
 //export default function VideoSearchPage({ params }: { params: Promise<{ id: string }> }) {

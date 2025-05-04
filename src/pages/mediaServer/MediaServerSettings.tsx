@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import mediaServersService from '../mediaServers/MediaServersService';
+import mediaServersService from '@/pages//mediaServers/MediaServersService';
 
-import { MediaServerDir, fetchMediaDir, createMediaDir, updateMediaDir, deleteMediaDir } from '../../services/apiDirService';
+import { MediaServerDir, fetchMediaDir, createMediaDir, updateMediaDir, deleteMediaDir } from './MediaServerSettingsService';
 
 export default function MediaServerSettings() {
   const { id } = useParams<{ id: string }>();

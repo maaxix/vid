@@ -3,12 +3,14 @@ npx create-react-app template_app --template typescript
 cd template_app
 npm install react-router-dom
 npm install --save-dev @types/react-router-dom
+npm install --save-dev @types/node
 
 ### create APP (option2)
 npm create vite@latest template_app -- --template react-ts
 cd template_app
 npm install react-router-dom
 npm install --save-dev @types/react-router-dom
+npm install --save-dev @types/node
 
 npm install -D tailwindcss postcss autoprefixer
 
@@ -30,3 +32,9 @@ npm cache clean --force
 rm -rf node_modules package-lock.json
 npm install
 ```
+
+
+## Step-by-step: Obfuscate function names in Vite
+#### 1. Install JavaScript obfuscator plugin for Vite
+Use vite-plugin-obfuscator or vite-plugin-javascript-obfuscator.
+> npm install vite-plugin-obfuscator --save-dev

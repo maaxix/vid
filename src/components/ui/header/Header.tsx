@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-import { toggleSidebar, toggleTheme } from "../layout/Layout";
+import { toggleSidebar, toggleTheme } from "@/components/ui/layout/Layout";
+import LoginButton from '@/components/auth/LoginButton';
 
 import './Header.css';
-import LoginButton from '../../auth/LoginButton';
 
 export default function Header() {
 

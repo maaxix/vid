@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { getConfigRoute } from '../../../Routes';
+import { getConfigRoute } from '@/Routes';
 import SidebarOverlay from './SidebarOverlay';
 
 import './Sidebar.css';

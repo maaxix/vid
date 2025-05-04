@@ -78,7 +78,7 @@ export default configService;
 
 /*
 USAGE:
-import configService from '../services/configService';
+import configService from '@/services/configService';
   const [config, setConfig] = useState(configService.getConfig());
 
   configService.saveConfig(config);
