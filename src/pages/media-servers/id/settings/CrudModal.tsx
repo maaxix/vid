@@ -34,7 +34,7 @@ export function CrudModal({
   onSuccess,
   serverUrl,
 }: Props) {
-  const [form, setForm] = useState<MediaServerDir>({ name: "", path:"" });
+  const [initData, setInitData] = useState<MediaServerDir>({ name: "", path:"" });
   const [opType, setOpType] = useState<OpType>(0); 
 
   const [errors, setErrors] = useState<Record<string, string>>({name: "", path: ""});
@@ -47,7 +47,7 @@ export function CrudModal({
       const vmsg = msg as Message;
       // Note: all set state will fire only one render
       setOpType(vmsg.opType);
-      setForm(vmsg.data);
+      setInitData(vmsg.data);
       setErrors({})
       window.location.hash = window.location.hash + "#modal";
       console.log(`CrudModal: handler END`);
@@ -62,7 +62,7 @@ export function CrudModal({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
     //const { name, value } = e.target;
-    //setForm(prev => ({ ...prev, [name]: value }));
+    //setInitData(prev => ({ ...prev, [name]: value }));
     
     // Clear error if exists when user types
     if (errors[name as keyof typeof errors]) {
@@ -94,12 +94,12 @@ export function CrudModal({
         console.log("CrudModal: handleSubmit createMediaDir");
       } 
       else if (opType === 2) {
-        await updateMediaDir(serverUrl, formValues.name, formValues);
+        await updateMediaDir(serverUrl, initData.name, formValues);
         console.log("CrudModal: handleSubmit updateMediaDir");
       }
       console.log("CrudModal: handleSubmit onSuccess before");
       handleClose(true);
-      onSuccess(formValues, formValues.name, opType);
+      onSuccess(formValues, initData.name, opType);
       console.log("CrudModal: handleSubmit onSuccess after");
 
     } catch (e: unknown) {
@@ -111,9 +111,9 @@ export function CrudModal({
 
   const confirmDelete = async () =>{
     try{
-      await deleteMediaDir(serverUrl, form.name);
+      await deleteMediaDir(serverUrl, initData.name);
       handleClose(true);
-      onSuccess(form, form.name, opType);
+      onSuccess(initData, initData.name, opType);
     }
     catch(e:unknown){
       console.error("CrudModal: confirmDelete", e);
@@ -142,7 +142,7 @@ export function CrudModal({
       <Modal onClose={handleClose} modalType="center">
         <div className="card-title mb-4">{"Edit Media directory"}</div>
         <p className="mb-8">{"Are you sure to delete"}</p>
-        <div className="flex gap-3">
+        <div className="flex gap-3 min-w-500">
           <button onClick={handleClose} className="btn second">Cancel </button>
           <button onClick={confirmDelete} className="btn primary">Confirm</button>
         </div>
@@ -160,7 +160,7 @@ export function CrudModal({
               name="name"
               className={`fld-input ${errors.name ? "border-red-500" : ""}`}
               placeholder="Name"
-              defaultValue={form.name || ""}
+              defaultValue={initData.name || ""}
               onChange={handleChange}
               /*disabled={opType==2}*/
             />
@@ -172,7 +172,7 @@ export function CrudModal({
               name="path"
               className={`fld-input border p-2 rounded w-full mb-1 ${errors.path ? "border-red-500" : ""}`}
               placeholder="Directory Path"
-              defaultValue={form.path || ""}
+              defaultValue={initData.path || ""}
               onChange={handleChange}
             />
             {errors.path && <div className="fld-error text-red-500 text-sm mb-2">{errors.path}</div>}

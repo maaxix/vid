@@ -79,7 +79,7 @@ export default function MediaServerSettingsPage() {
   }
 
   const handleSuccess = (item: MediaServerDir,id:string, opType:number) => {
-    console.log(`MediaServerSettingsPage: handleSuccess ${window.location.hash}` );
+    console.log(`MediaServerSettingsPage: handleSuccess ${window.location.hash} ${id}` );
     if(opType===1)
       setList(prev => [...prev, item]);
     else if(opType==2)
