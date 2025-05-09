@@ -28,16 +28,24 @@ const formatDate = (dateString: string): string => {
 const VideoCard: React.FC<VideoCardProps> = ({ video, baseServerUrl }) => {
   const title = video.dataTitle || video.filename;
   const thumbnailTime = video.thumbnailsTime?.[0] || 0;
-  const thumbnailUrl = `${baseServerUrl}/api/media/data/thumbs/${video.fileId}/${thumbnailTime}`;
+  const thumbnailsTimes = video.thumbnailsTime || []
+  const thumbnailUrl = `${baseServerUrl}/api/media/data/thumbs/${video.fileId}/`;
   const vidUrl = `${baseServerUrl}/api/media/stream/${video.fileId}`;
 
   return (
     <div className="card-wrapper">
       <div className="card">
         <div className="relative">
-          <a href={vidUrl} target='__blank'>
-            <img src={thumbnailUrl} alt={title} className="w-full h-48 object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '';}}  />
-          </a>
+          <div className='flex'>
+            {thumbnailsTimes.map(time => (
+              <a href={vidUrl} target='__blank' className='full'>
+              <img src={`${thumbnailUrl}${time}`} alt={title} className="w-full h-48 object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '';}}  />
+            </a>
+            ))}            
+            <a href={vidUrl} target='__blank'>
+              <img src={`${thumbnailUrl}${thumbnailTime}`} alt={title} className="w-full h-48 object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '';}}  />
+            </a>
+          </div>
           <div className="pill small vid-time">{formatDuration(video.duration)}</div>
         </div>
         

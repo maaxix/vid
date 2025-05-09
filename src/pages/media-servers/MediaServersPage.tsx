@@ -72,6 +72,8 @@ function MediaServersPage() {
     return true;
   };
 
+  console.log(`rendere server list= ${servers.length}`);
+  
   return (
     <div className="box">
       <div className="flex card-header">

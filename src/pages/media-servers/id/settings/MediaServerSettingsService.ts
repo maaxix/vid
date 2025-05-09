@@ -39,3 +39,30 @@ export const deleteMediaDir = async (baseUrl:string, dirName: string): Promise<v
   });
   if (!response.ok) throw new Error('Failed to delete media directory');
 };
+
+
+export const validateForm = (form: MediaServerDir): Record<string, string> =>{
+    const errors: Record<string, string> = {
+      _error: "",
+      name: "",
+      path: "",
+    };
+
+    let isValid = true;
+
+    if (!form.name.trim()) {
+      errors.name = "Name is required";
+      isValid = false;
+    }
+
+    if (!form.path.trim()) {
+      errors.path = "Path is required";
+      isValid = false;
+    }
+
+    if (!isValid) {
+      errors._error = "ERROR";
+    }
+
+    return errors;
+  }

@@ -16,8 +16,6 @@ const Breadcrumbs = () => {
     segment = decodeURIComponent(segment);
     let label = segment.replace(/-/g, ' '); // Replace hyphens with spaces
 
-    console.log(`lable= ${label}`);
-
     if (segment.match(/^\[.*\]$/)) {
       label = 'Dynamic'; // Example for dynamic segments like [slug]
     }

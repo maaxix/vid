@@ -23,7 +23,12 @@ class MediaServersService {
     const serverList = configService.getConfig().serverList;
     return serverList.find((server) => server.name === serverName) || null;
   }
-
+  public findServerUrlByName(serverName: string): string | null {
+    const serverList = configService.getConfig().serverList;
+    const found=  serverList.find((server) => server.name === serverName) || null;
+    if(found) return found.url;
+    return null;
+  }
   public getServersMap(): Record<string, ServerEntry> {
     const config = configService.getConfig();
     const serverList = config?.serverList ?? [];

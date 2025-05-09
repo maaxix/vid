@@ -37,6 +37,7 @@ export default function LoginForm({ onClose, onSwitchToRegister, onSwitchToForgo
       if (response.ok) {
         // Refresh the page on successful login
         //router.refresh();
+        console.log("LoginForm")
         console.log(window.location)
         window.location.reload();
         onClose();

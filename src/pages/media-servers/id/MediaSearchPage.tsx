@@ -6,7 +6,9 @@ import { useParams } from 'react-router-dom';
 import mediaServersService from '@/pages/media-servers/MediaServersService';
 import VideoCard from '@/components/video/VideoCard';
 import SearchBar from '@/components/video/SearchBar';
-import { VideoItem, ApiResponse } from '@/components/video/types';
+import { VideoItem } from '@/components/video/types';
+
+import {searchMedia} from './MediaSearchService';
 
 export default function MediaSearchPage() {
 //export default function VideoSearchPage({ params }: { params: Promise<{ id: string }> }) {
@@ -38,6 +40,8 @@ export default function MediaSearchPage() {
         throw new Error(`Endpoint with name "${id}" not found`);
       }
       const serverUrl =server.url;
+      const data = await searchMedia(serverUrl, id||"", query, currentPage);
+      /*
       const url = new URL(serverUrl+'/api/media/search', window.location.origin);
       if (query) url.searchParams.append('q', query);
       url.searchParams.append('page', currentPage.toString());
@@ -47,7 +51,7 @@ export default function MediaSearchPage() {
       if (!response.ok) throw new Error('Failed to fetch videos');
       
       const data: ApiResponse = await response.json();
-      
+      */
       if (reset) {
         setVideos(data.results);
       } else {

@@ -1,208 +1,143 @@
+
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+
+import { emitMessage } from '@/components/eventBus';
+import FetchError from '@/components/ui/fetch/FetchError';
+import FetchDataLoading from '@/components/ui/fetch/FetchDataLoading';
+
 import mediaServersService from '@/pages//media-servers/MediaServersService';
 
-import { MediaServerDir, fetchMediaDir, createMediaDir, updateMediaDir, deleteMediaDir } from './MediaServerSettingsService';
+import { MediaServerDir, fetchMediaDir } from './MediaServerSettingsService';
 
+import { CrudModal } from './CrudModal';
+
+/*
+  Note: rendering steps
+  1- render the component in initail state
+  2- execute the function inside the useEffect
+  3- the render will fire for each change in useState 
+*/
 export default function MediaServerSettingsPage() {
-  const { id } = useParams<{ id: string }>();
+  // note using import { useNavigate , useLocation} will fire rendering twice
+
+  const id :string = window.location.hash.split("/")[2]; //;useParams<{ id: string }>();
+  /* */
   const [list, setList] = useState<MediaServerDir[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentServer, setCurrentServer] = useState<MediaServerDir>({ name: '', path: '' });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);   
+  
+  const [serverBaseUrl] = useState<string>(mediaServersService.findServerUrlByName(id) || "");   
 
   useEffect(() => {
-    if (!id) {
-      setError('Server ID is missing');
-      return;
-    }
-    const serverConfig = mediaServersService.findServerByName(id);
-    if (!serverConfig) {
-      setError(`Not Found server ${id}`);
-      return;
-    }
-    if (serverConfig) {
-      loadServers(serverConfig.url);
-    }
-  }, [id]);
+    console.log(`MediaServerSettingsPage: useEffect`);
+    loadData();
+  }, []);
 
-  const loadServers = async (url: string) => {
+  const loadData = async () => {
     setIsLoading(true);
+    setError(null);
     try {
-      const data = await fetchMediaDir(url);
+      const data = await fetchMediaDir(serverBaseUrl||"");
+      console.log(`MediaServerSettingsPage: loadData 2`)
       setList(data);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load media servers');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCurrentServer(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!currentServer.name || !currentServer.path) return;
-
-    setIsLoading(true);
-    try {
-      const serverConfig = mediaServersService.findServerByName(id||"");
-      if (!serverConfig) throw new Error('Server configuration not found');
-
-      if (isEditing) {
-        const updatedServer = await updateMediaDir(serverConfig.url, currentServer.name, currentServer);
-        setList(list.map(server => server.name === updatedServer.name ? updatedServer : server));
-      } else {
-        const newServer = await createMediaDir(serverConfig.url, currentServer);
-        setList([...list, newServer]);
-      }
       
-      resetForm();
-      setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save media server');
+      const msg = err instanceof Error ? err.message : 'Failed to load media servers';
+      setError(msg);
+      emitMessage("alert", msg);
     } finally {
+      console.log(`MediaServerSettingsPage: loadData 3`);
       setIsLoading(false);
     }
   };
 
-  const handleEdit = (server: MediaServerDir) => {
-    setCurrentServer(server);
-    setIsEditing(true);
-  };
+  const handleClickCreate = () => {
+    console.log("MediaServerSettingsPage: handleClickCreate");
+    emitMessage("modal", {opType:1, data:{ name: "", path:"" }});
 
-  const handleDelete = async (dirName: string) => {
-    if (!window.confirm('Are you sure you want to delete this directory?')) return;
+    
+  }
+  const handleClickEdit = (e: React.MouseEvent<HTMLElement>) => {
+    const elm = (e.currentTarget as HTMLElement).closest('li');
+    if(!elm) return;
+    const id = elm.dataset.id; // for data-id attributes
+    //const text = elm.textContent;
+    const item = list.find(item => item.name === id);
+    if(!item) return;
+    emitMessage("modal", {opType:2, data:item});
 
-    setIsLoading(true);
-    try {
-      const serverConfig = mediaServersService.findServerByName(id||"");
-      if (!serverConfig) throw new Error('Server configuration not found');
+    console.log("MediaServerSettingsPage: handleClickEdit")    
+  }
+  const handleClickDelete = (e: React.MouseEvent<HTMLElement>) => {
+    const elm = (e.currentTarget as HTMLElement).closest('li');
+    if(!elm) return;
+    const id = elm.dataset.id; // for data-id attributes
+    //const text = elm.textContent;
+    const item = list.find(item => item.name === id);
+    if(!item) return;
+    emitMessage("modal", {opType:3, data:item});  
+  }
 
-      await deleteMediaDir(serverConfig.url, dirName);
-      setList(list.filter(server => server.name !== dirName));
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete media server');
-    } finally {
-      setIsLoading(false);
+  const handleSuccess = (item: MediaServerDir,id:string, opType:number) => {
+    console.log(`MediaServerSettingsPage: handleSuccess ${window.location.hash}` );
+    if(opType===1)
+      setList(prev => [...prev, item]);
+    else if(opType==2)
+      setList(prev => prev.map(i => (i.name === id ? item : i)));
+    else if(opType ==3){
+      setList(prev => prev.filter(i => (i.name === id ? false : true)));
     }
   };
+  
+  console.log(`MediaServerSettingsPage: render ==id=${id} isLoading=${isLoading} list=${list.length} ${window.location.hash}` )
+  if (isLoading) {
+    return (
+      <FetchDataLoading title="Media directory list" message="Loading media directories..." />
+    );
+  }
 
-  const resetForm = () => {
-    setCurrentServer({ name: '', path: '' });
-    setIsEditing(false);
-  };
-
-  const handleAdd = () => {
-
+  if (error) {
+    return (  
+      <FetchError title="Media directory list" message={error} reloadFunc={loadData} />
+    );
   }
 
   return (
     <div className="box">
       <div className="flex card-header">
-        <span className="grow card-title title-primary">Media Directories</span>
+        <span className="grow card-title title-primary">Media directory list</span>
         <nav className="">
-          <button onClick={handleAdd} className="btn second tooltip">Add Directory<span className="tooltip-top tooltiptext">Add Server</span></button>
+          <button onClick={handleClickCreate} className="btn second tooltip">
+          Add Directory<span className="tooltip-top tooltiptext">Add Directory</span>
+          </button>
         </nav>
       </div>
 
-      
       <div className="card-body flex-col gap-6">
-        {error && <div className="alert alert-danger">{error}</div>}
-
-        <div className="box p-2">
-          <form onSubmit={handleSubmit}>
-            <div className="fld">
-              <label htmlFor="name" className="fld-label">Name</label>
-              <input
-                type="text"
-                className="fld-input"
-                id="name"
-                name="name"
-                value={currentServer.name}
-                onChange={handleInputChange}
-                required
-                disabled={isEditing}
-              />
+        {list.map(row => (
+          <li key={row.name} className="card1 flex gap-2 box p-2" data-id={row.name}>
+            <div className='grow'>
+              <h4 className="text-lg font-semibold">{row.name}</h4>
+              <p className="text-sm text-gray-500">{row.path}</p>
             </div>
-            <div className="fld">
-              <label htmlFor="path" className="fld-label">Path</label>
-              <input
-                type="text"
-                className="fld-input"
-                id="path"
-                name="path"
-                value={currentServer.path}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div className="flex gap-4">
-              <button type="submit" className="btn primary" disabled={isLoading}>
-                {isEditing ? 'Update' : 'Create'}
+            <div className="flex-start">
+              <button onClick={handleClickEdit} className="btn btn-icon">
+                <i className="icon icon-edit"></i>
               </button>
-              {isEditing && (
-                <button type="button" className="btn second" onClick={resetForm} disabled={isLoading}>
-                  Cancel
-                </button>
-              )}
+              <button onClick={handleClickDelete} className="btn btn-icon">
+                <i className="icon icon-del"></i>
+              </button>
             </div>
-
-          </form>
-        </div>
-        
-        <div className="card-body">
-          {isLoading ? (
-            <div className="text-center">
-              <div className="spinner-border" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          ) : (
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Path</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {list.map(server => (
-                  <tr key={server.name}>
-                    <td>{server.name}</td>
-                    <td>{server.path}</td>
-                    <td>
-                      <button 
-                        onClick={() => handleEdit(server)}
-                        className="btn btn-sm btn-warning me-2"
-                      >
-                        Edit
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(server.name)}
-                        className="btn btn-sm btn-danger"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
+          </li>
+        ))}
       </div>
+
+      <CrudModal
+        onClose={() => {return}}
+        onSuccess={handleSuccess}
+        serverUrl={serverBaseUrl}
+      />
+
     </div>
   );
 }
