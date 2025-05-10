@@ -56,9 +56,7 @@ export function Modal({ onClose, modalType = 'center', children }: ModalProps) {
       }}
     >
       <div
-        className={`modal-content box1 p-4 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
-          getModalPositionClass(modalType, true)
-        }`}
+        className={`modal-content box1 p-4 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}
@@ -66,6 +64,13 @@ export function Modal({ onClose, modalType = 'center', children }: ModalProps) {
     </div>
   )
 }
+// className={`modal-content box1 autoscrollhide   sidebar-center`}
+// autoscrollhide  animate-top sidebar-top
+/*
+        className={`modal-content box1 p-4 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 ${
+          getModalPositionClass(modalType, true)
+        }`}
+*/
 
 function getModalPositionClass(type: ModalProps['modalType'], open: boolean) {
   switch (type) {

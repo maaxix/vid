@@ -19,15 +19,15 @@ import { CrudModal } from './CrudModal';
 */
 export default function MediaServerSettingsPage() {
   // note using import { useNavigate , useLocation} will fire rendering twice
-
-  const id :string = window.location.hash.split("/")[2]; //;useParams<{ id: string }>();
+  const id :string = decodeURIComponent(window.location.hash.split("/")[2]); //;useParams<{ id: string }>();
+  console.log(`server_id = ${id}`)
   /* */
   const [list, setList] = useState<MediaServerDir[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);   
   
   const [serverBaseUrl] = useState<string>(mediaServersService.findServerUrlByName(id) || "");   
-
+  console.log(`serverBaseUrl= ${serverBaseUrl}`)
   useEffect(() => {
     console.log(`MediaServerSettingsPage: useEffect`);
     loadData();
