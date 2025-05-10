@@ -9,7 +9,8 @@ import mediaServersService from '@/pages//media-servers/MediaServersService';
 
 import { MediaServerDir, fetchMediaDir } from './MediaServerSettingsService';
 
-import { CrudModal } from './CrudModal';
+//import { CrudModal } from './CrudModal';
+import Page  from './TestModal';
 
 /*
   Note: rendering steps
@@ -132,11 +133,17 @@ export default function MediaServerSettingsPage() {
         ))}
       </div>
 
+      <Page onSuccess={handleSuccess} serverUrl={serverBaseUrl}/>
+      {
+        /*
       <CrudModal
         onClose={() => {return}}
         onSuccess={handleSuccess}
         serverUrl={serverBaseUrl}
       />
+        */
+      }
+
 
     </div>
   );

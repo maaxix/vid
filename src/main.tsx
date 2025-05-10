@@ -18,10 +18,13 @@ import "./styles//card.css"
 import "./styles//icons.css"
 
 import App from './App.tsx'
+import { ToastProvider } from '@/components/ui/toast/ToastContext';
 
 //createRoot(document.getElementById('root')!).render(
 createRoot(document.body).render(
   //<StrictMode>
+  <ToastProvider>
     <App />
+  </ToastProvider>
   //</StrictMode>,
 )
