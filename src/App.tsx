@@ -9,6 +9,7 @@ import Layout from './components/ui/layout/Layout';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 
 const App = () => {
+  console.log("APP: render")
   return (
     <Router>
       <Layout>

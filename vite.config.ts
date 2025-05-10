@@ -9,21 +9,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [
     react()
-    /*
-    ,obfuscatorPlugin({
-      exclude: [/node_modules/, "/Routes.tsx"],
-      apply: "build",
-      debugger: true,
-      options: {
-        compact: true,
-        controlFlowFlattening: true,
-        identifierNamesGenerator: 'mangled',
-        renameGlobals: true,
-       
-      },
-    }),
-    */
-  ],
+  ], 
   base:"/vid/",
   resolve: {
     alias: {

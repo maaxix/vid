@@ -38,3 +38,9 @@ npm install
 #### 1. Install JavaScript obfuscator plugin for Vite
 Use vite-plugin-obfuscator or vite-plugin-javascript-obfuscator.
 > npm install vite-plugin-obfuscator --save-dev
+
+
+### css
+npm uninstall tailwindcss @tailwindcss/postcss
+npm install -D tailwindcss@3.4.1 postcss autoprefixer
+npx tailwindcss init -p

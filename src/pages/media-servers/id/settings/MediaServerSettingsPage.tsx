@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react';
 
+import { useToast } from '@/components/ui/toast/ToastContext';
 import { emitMessage } from '@/components/eventBus';
 import FetchError from '@/components/ui/fetch/FetchError';
 import FetchDataLoading from '@/components/ui/fetch/FetchDataLoading';
@@ -19,6 +20,8 @@ import Page  from './TestModal';
   3- the render will fire for each change in useState 
 */
 export default function MediaServerSettingsPage() {
+  const { showToast } = useToast();
+
   // note using import { useNavigate , useLocation} will fire rendering twice
   const id :string = decodeURIComponent(window.location.hash.split("/")[2]); //;useParams<{ id: string }>();
   console.log(`server_id = ${id}`)
@@ -89,7 +92,15 @@ export default function MediaServerSettingsPage() {
       setList(prev => prev.filter(i => (i.name === id ? false : true)));
     }
   };
-  
+
+  const handleClickToast = () => {
+    showToast({
+      id: 'error',
+      message: 'Media server directories!',
+      timeout: 30000,
+    });    
+  };
+
   console.log(`MediaServerSettingsPage: render ==id=${id} isLoading=${isLoading} list=${list.length} ${window.location.hash}` )
   if (isLoading) {
     return (
@@ -107,7 +118,10 @@ export default function MediaServerSettingsPage() {
     <div className="box">
       <div className="flex card-header">
         <span className="grow card-title title-primary">Media directory list</span>
-        <nav className="">
+        <nav className="flex gap-2">
+          <button onClick={handleClickToast} className="btn second">
+          Toast
+          </button>
           <button onClick={handleClickCreate} className="btn second tooltip">
           Add Directory<span className="tooltip-top tooltiptext">Add Directory</span>
           </button>
