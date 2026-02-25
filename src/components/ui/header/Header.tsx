@@ -9,13 +9,19 @@ export default function Header() {
 
 
   return (
-    <header className="header gap-4">
+    <header className="header flex-center gap-4">
         <div>
           <button className="btn btn-round" onClick={toggleSidebar}><i className="icon icon-menu"></i></button>
+        </div>
+        <div>
+          <button className="btn btn-round" onClick={toggleSidebar}><i className="fas fa-moon"></i></button>
         </div>
         {/* Logo */}
         <div className="">
           <a href="" className="logo grow"><i className="icon icon-logo"> </i></a>
+        </div>
+        <div className="">
+          <a href="" className="logo grow"><i className="icons-youtube"> </i></a>
         </div>
         <div className="app-title grow">Bookee</div>
         {/* search bar*/}

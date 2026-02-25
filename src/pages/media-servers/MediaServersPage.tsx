@@ -96,10 +96,14 @@ function MediaServersPage() {
               </p>
             </Link>
             <div className="flex-start">
-              {statuses[server.name] === 'online' && (
+              {statuses[server.name] === 'online' ? (
                 <Link to={`${pathname}/${server.name}/settings`} className="btn btn-icon">
                   <i className="icon icon-gear"></i>Settings
                 </Link>
+              ): (
+                <a href={server.url} target='_blank' className="btn btn-icon">
+                  <i className="icon icon-gear"></i>Open Server
+                </a>                
               )}
               <button onClick={() => handleEdit(server.name)} className="btn btn-icon">
                 <i className="icon icon-edit"></i>

@@ -44,3 +44,20 @@ Use vite-plugin-obfuscator or vite-plugin-javascript-obfuscator.
 npm uninstall tailwindcss @tailwindcss/postcss
 npm install -D tailwindcss@3.4.1 postcss autoprefixer
 npx tailwindcss init -p
+
+### download svg from internet 
+>> svgrepo-com
+
+### optimize icons and fix SVG Icons
+> npm install -g svgo
+
+> svgo -rf src/icons -o src/icons2
+
+> npx svgo -f src/icons2 --config '{"plugins":["preset-default"]}'
+
+input folder `src/icons` output folder `src/icons2`
+
+### build icons
+> npm install svgtofont --save-dev
+
+> node build-icons.mjs

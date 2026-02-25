@@ -32,18 +32,27 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, baseServerUrl }) => {
   const thumbnailUrl = `${baseServerUrl}/api/media/data/thumbs/${video.fileId}/`;
   const vidUrl = `${baseServerUrl}/api/media/stream/${video.fileId}`;
 
+
+
+const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const imgElement = e.currentTarget;
+  imgElement.onerror = null; // Prevent infinite loop if fallback also fails
+  imgElement.src = "not-found-image.png";
+};
+
+
   return (
     <div className="card-wrapper">
       <div className="card">
         <div className="relative">
-          <div className='flex'>
+          <div className='flex gap-4 autoscroll'>
             {thumbnailsTimes.map(time => (
-              <a href={vidUrl} target='__blank' className='full'>
-              <img src={`${thumbnailUrl}${time}`} alt={title} className="w-full h-48 object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '';}}  />
+              <a href={vidUrl} target='__blank' className='w100p card-img'>
+              <img src={`${thumbnailUrl}${time}`} alt={title} className="w-full h-48 object-cover" onError={handleImageError}  />
             </a>
             ))}            
             <a href={vidUrl} target='__blank'>
-              <img src={`${thumbnailUrl}${thumbnailTime}`} alt={title} className="w-full h-48 object-cover" onError={(e) => { (e.target as HTMLImageElement).src = '';}}  />
+              <img src={`${thumbnailUrl}${thumbnailTime}`} alt={title} className="w-full h-48 object-cover" onError={handleImageError}  />
             </a>
           </div>
           <div className="pill small vid-time">{formatDuration(video.duration)}</div>
